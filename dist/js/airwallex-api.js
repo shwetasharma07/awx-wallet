@@ -259,12 +259,12 @@ class AirwallexWebAPI {
             type: 'earnings_in',
             amount: amount,
             currency: 'USD',
-            description: description || `Earnings from ${source}`,
+            description: description || 'Earnings',
             status: 'completed',
             timestamp: new Date().toISOString(),
             balance_after: wallet.balances[0].available_amount,
             counterparty: {
-                name: source === 'platform' ? 'Platform Earnings' : source,
+                name: 'Earnings',
                 type: 'earnings'
             }
         };

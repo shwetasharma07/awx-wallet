@@ -75,13 +75,6 @@ class DigitalWalletApp {
             case 'earnings':
                 return `
                     <div class="form">
-                        <select id="earningsSource" class="form-select">
-                            <option value="platform">Platform Earnings</option>
-                            <option value="freelance">Freelance Work</option>
-                            <option value="gig">Gig Economy</option>
-                            <option value="investment">Investment Returns</option>
-                            <option value="bonus">Performance Bonus</option>
-                        </select>
                         <input type="number" id="earningsAmount" placeholder="Amount ($)" step="0.01" min="0.01" required>
                         <textarea id="earningsDescription" placeholder="Description (optional)" rows="2"></textarea>
                         <div class="button-group">
@@ -322,7 +315,6 @@ class DigitalWalletApp {
     }
 
     async processPushEarnings() {
-        const source = document.getElementById('earningsSource').value;
         const amount = parseFloat(document.getElementById('earningsAmount').value);
         const description = document.getElementById('earningsDescription').value;
 
@@ -334,10 +326,10 @@ class DigitalWalletApp {
         this.setLoading(true);
 
         try {
-            const result = await window.airwallexAPI.pushEarnings(amount, source, description);
+            const result = await window.airwallexAPI.pushEarnings(amount, 'earnings', description);
             await this.loadWalletData();
             this.hideActionModal();
-            this.showSuccess(`🎉 Earnings of $${amount.toFixed(2)} pushed to your wallet from ${source}!`);
+            this.showSuccess(`🎉 Earnings of $${amount.toFixed(2)} pushed to your wallet!`);
         } catch (error) {
             this.showError('Push earnings failed: ' + error.message);
         } finally {
