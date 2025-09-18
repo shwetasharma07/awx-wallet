@@ -110,6 +110,18 @@
             margin-bottom: 30px;
         }
 
+        .wallet-actions .action-btn:first-child {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border-color: #22c55e;
+        }
+
+        .wallet-actions .action-btn:first-child:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+        }
+
         .action-btn {
             background: #f8f9fa;
             border: 2px solid #e0e0e0;
@@ -350,6 +362,10 @@
                 </div>
 
                 <div class="wallet-actions">
+                    <div class="action-btn" onclick="app.showActionModal('earnings')">
+                        <span class="action-icon">💵</span>
+                        Push Earnings
+                    </div>
                     <div class="action-btn" onclick="app.showActionModal('send')">
                         <span class="action-icon">📤</span>
                         Send Money

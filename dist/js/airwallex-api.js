@@ -23,51 +23,17 @@ class AirwallexWebAPI {
             id: 'wallet_demo_123',
             balances: [{
                 currency: 'USD',
-                available_amount: 1247.50,
+                available_amount: 0.00,
                 pending_amount: 0,
                 reserved_amount: 0,
-                total_amount: 1247.50
+                total_amount: 0.00
             }],
             status: 'active',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
         };
 
-        const mockTransactions = [
-            {
-                id: 'txn_1',
-                type: 'transfer_in',
-                amount: 500.00,
-                currency: 'USD',
-                description: 'Received from John Doe',
-                status: 'completed',
-                timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-                balance_after: 1247.50,
-                counterparty: { name: 'John Doe', type: 'wallet' }
-            },
-            {
-                id: 'txn_2',
-                type: 'transfer_out',
-                amount: 100.00,
-                currency: 'USD',
-                description: 'Sent to Jane Smith',
-                status: 'completed',
-                timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-                balance_after: 747.50,
-                counterparty: { name: 'Jane Smith', type: 'wallet' }
-            },
-            {
-                id: 'txn_3',
-                type: 'transfer_in',
-                amount: 250.00,
-                currency: 'USD',
-                description: 'Top up from bank account',
-                status: 'completed',
-                timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                balance_after: 847.50,
-                counterparty: { name: 'Bank of America', type: 'bank' }
-            }
-        ];
+        const mockTransactions = [];
 
         this.storage.setItem('mock_wallet', JSON.stringify(mockWallet));
         this.storage.setItem('mock_transactions', JSON.stringify(mockTransactions));
@@ -273,6 +239,50 @@ class AirwallexWebAPI {
             bankAccount: bankDetails,
             timestamp: newTransaction.timestamp,
             estimatedCompletion: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        };
+    }
+
+    // Push earnings into wallet
+    async pushEarnings(amount, source = 'platform', description = '') {
+        await this.delay(800);
+
+        const wallet = JSON.parse(this.storage.getItem('mock_wallet'));
+        const transactions = JSON.parse(this.storage.getItem('mock_transactions')) || [];
+
+        // Update balance
+        wallet.balances[0].available_amount += amount;
+        wallet.balances[0].total_amount += amount;
+
+        // Add new earnings transaction
+        const earningsTransaction = {
+            id: 'earn_' + Date.now(),
+            type: 'earnings_in',
+            amount: amount,
+            currency: 'USD',
+            description: description || `Earnings from ${source}`,
+            status: 'completed',
+            timestamp: new Date().toISOString(),
+            balance_after: wallet.balances[0].available_amount,
+            counterparty: {
+                name: source === 'platform' ? 'Platform Earnings' : source,
+                type: 'earnings'
+            }
+        };
+
+        transactions.unshift(earningsTransaction);
+
+        // Save updates
+        this.storage.setItem('mock_wallet', JSON.stringify(wallet));
+        this.storage.setItem('mock_transactions', JSON.stringify(transactions));
+        this.currentWallet = wallet;
+
+        return {
+            id: earningsTransaction.id,
+            status: 'completed',
+            amount: amount,
+            source: source,
+            timestamp: earningsTransaction.timestamp,
+            newBalance: wallet.balances[0].available_amount
         };
     }
 

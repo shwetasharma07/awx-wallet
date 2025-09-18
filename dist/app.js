@@ -61,6 +61,7 @@ class DigitalWalletApp {
 
     getModalTitle(type) {
         const titles = {
+            earnings: '💵 Push Earnings',
             send: '📤 Send Money',
             request: '📥 Request Money',
             add: '💳 Add Money',
@@ -71,6 +72,24 @@ class DigitalWalletApp {
 
     getModalContent(type) {
         switch (type) {
+            case 'earnings':
+                return `
+                    <div class="form">
+                        <select id="earningsSource" class="form-select">
+                            <option value="platform">Platform Earnings</option>
+                            <option value="freelance">Freelance Work</option>
+                            <option value="gig">Gig Economy</option>
+                            <option value="investment">Investment Returns</option>
+                            <option value="bonus">Performance Bonus</option>
+                        </select>
+                        <input type="number" id="earningsAmount" placeholder="Amount ($)" step="0.01" min="0.01" required>
+                        <textarea id="earningsDescription" placeholder="Description (optional)" rows="2"></textarea>
+                        <div class="button-group">
+                            <button onclick="app.processPushEarnings()" class="action-btn primary">Push Earnings</button>
+                            <button onclick="app.hideActionModal()" class="action-btn secondary">Cancel</button>
+                        </div>
+                    </div>
+                `;
             case 'send':
                 return `
                     <div class="form">
@@ -302,6 +321,30 @@ class DigitalWalletApp {
         }
     }
 
+    async processPushEarnings() {
+        const source = document.getElementById('earningsSource').value;
+        const amount = parseFloat(document.getElementById('earningsAmount').value);
+        const description = document.getElementById('earningsDescription').value;
+
+        if (!amount || amount <= 0) {
+            this.showError('Please enter a valid amount');
+            return;
+        }
+
+        this.setLoading(true);
+
+        try {
+            const result = await window.airwallexAPI.pushEarnings(amount, source, description);
+            await this.loadWalletData();
+            this.hideActionModal();
+            this.showSuccess(`🎉 Earnings of $${amount.toFixed(2)} pushed to your wallet from ${source}!`);
+        } catch (error) {
+            this.showError('Push earnings failed: ' + error.message);
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
     updateBalanceDisplay() {
         const balanceElement = document.getElementById('currentBalance');
         if (balanceElement) {
@@ -346,6 +389,7 @@ class DigitalWalletApp {
 
     getTransactionIcon(type) {
         const icons = {
+            'earnings_in': '💵',
             'transfer_in': '📥',
             'transfer_out': '📤',
             'request_pending': '⏳',
