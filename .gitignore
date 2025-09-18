@@ -5,7 +5,7 @@ node_modules/
 
 # Expo
 .expo/
-dist/
+# dist/ - Commenting out to deploy pre-built files
 web-build/
 expo-env.d.ts
 
