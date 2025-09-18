@@ -1,79 +1,79 @@
-# 💰 Digital Wallet App
+# 💰 Digital Wallet with Airwallex Integration
 
-A beautiful, secure, and feature-rich digital wallet application built with React Native and Expo.
+A modern, web-based digital wallet application with comprehensive Airwallex API integration for seamless money management.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/shwetasharma07/awx-wallet)
 
-## ✨ Features
+## 🚀 Features
 
-- 🔐 **Secure Authentication** - Sign up, sign in, and sign out functionality
-- 💸 **Money Transfers** - Send and request money from friends
-- 💳 **Add Funds** - Top up your wallet from cards or bank accounts
-- 💰 **Cash Out** - Withdraw funds to your bank account
-- 📊 **Transaction History** - View all your transactions with detailed insights
-- 📱 **Responsive Design** - Works beautifully on web, iOS, and Android
-- 🎨 **Modern UI** - Clean interface with smooth animations and gradients
+- **Send Money** - Transfer funds to email recipients with real-time validation
+- **Request Money** - Send payment requests with status tracking
+- **Add Money** - Fund wallet from credit cards or bank accounts
+- **Cash Out** - Withdraw funds to bank accounts
+- **Transaction History** - Complete audit trail with timestamps
+- **Real-time Balance Updates** - Live balance synchronization
+- **Professional UI** - Responsive design with loading states and animations
 
-## 🚀 Quick Start
+## 🎯 Live Demo
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Expo CLI
+**Demo URL**: https://wallets-eyls84jqb-shwetasharma07s-projects.vercel.app
 
-### Installation
+**Demo Credentials**:
+- Email: `demo@wallet.com`
+- Password: `demo123`
 
-1. Clone the repository:
-```bash
-git clone https://github.com/shwetasharma07/awx-wallet.git
-cd awx-wallet
+## 🏗️ Architecture
+
+This is a pure web application built with:
+- **Frontend**: Vanilla HTML5, CSS3, and JavaScript
+- **API Integration**: Mock Airwallex API wrapper for demo purposes
+- **Storage**: localStorage for client-side persistence
+- **Deployment**: Optimized for Vercel static hosting
+
+## 📁 Project Structure
+
+```
+.
+├── dist/                   # Production-ready web files
+│   ├── index.html         # Main application
+│   ├── app.js            # Application logic & UI controllers
+│   └── js/
+│       └── airwallex-api.js  # Airwallex API integration
+├── .github/
+│   └── workflows/
+│       └── deploy.yml     # Auto-deployment to Vercel
+├── vercel.json           # Vercel deployment configuration
+└── package.json          # Project metadata
 ```
 
-2. Install dependencies:
+## 🛠️ Development
+
+### Local Development
 ```bash
-npm install
+npm run dev
+# Opens local server at http://localhost:8080
 ```
 
-3. Start the development server:
+### Deployment
 ```bash
-npm start
+npm run deploy
+# Deploys to Vercel production
 ```
 
-4. Open in your browser or scan QR code with Expo Go app
+## 🔧 Auto-Deployment
 
-## 📱 Platform Support
-
-- **Web**: Works in any modern browser
-- **iOS**: Native iOS app via Expo
-- **Android**: Native Android app via Expo
-
-## 🌐 Deployment
-
-### Deploy to Web (Vercel)
-```bash
-npm run build:web
-npx vercel --prod
-```
-
-### Build Mobile Apps
-```bash
-# Android APK
-npm run build:android
-
-# iOS App
-npm run build:ios
-```
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+This repository includes GitHub Actions for automatic deployment to Vercel:
+- **Push to main** → Automatic production deployment
+- **Pull requests** → Preview deployments
+- **Manual trigger** → Available from GitHub Actions tab
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React Native with Expo
-- **Navigation**: React Navigation 6
-- **Styling**: StyleSheet with Linear Gradients
-- **Authentication**: AsyncStorage (demo mode)
-- **Icons**: Expo Vector Icons
-- **Platform**: Cross-platform (Web, iOS, Android)
+- **Frontend**: Pure HTML5, CSS3, JavaScript
+- **API Integration**: Airwallex-compatible wrapper
+- **Storage**: localStorage for persistence
+- **Deployment**: Vercel with GitHub Actions
+- **Architecture**: Static web application
 
 ## 📄 License
 
