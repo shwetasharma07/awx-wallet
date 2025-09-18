@@ -1,4 +1,4 @@
-name: Deploy Digital Wallet to Vercel
+name: Deploy to Vercel
 
 on:
   push:
@@ -8,40 +8,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy to Vercel
+    timeout-minutes: 10
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: List files to deploy
-        run: |
-          echo "Files in dist directory:"
-          ls -la dist/
-          echo "Vercel config:"
-          cat vercel.json
-
-      - name: Check if secrets are configured
-        run: |
-          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
-            echo "❌ VERCEL_TOKEN secret is missing"
-            echo "Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
-            echo "Add VERCEL_TOKEN with your Vercel API token"
-            exit 1
-          else
-            echo "✅ VERCEL_TOKEN is configured"
-          fi
-
-      - name: Deploy to Vercel Production
-        uses: amondnet/vercel-action@v25
-        if: github.ref == 'refs/heads/main'
+      - name: Deploy to Vercel
+        uses: vercel/action@v1
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: '--prod'
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
-          working-directory: ./
-
-      - name: Deployment URL
-        if: success()
-        run: echo "🚀 Deployment completed! Check your Vercel dashboard for the URL."
+          vercel-args: '--prod'
